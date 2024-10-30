@@ -11,6 +11,7 @@ namespace StudentRegister_GOhman
     {
         Student? currStudent;
         private StudentDbContext dbCtx = new StudentDbContext();
+
         public void Start()
         {
             while (true)
@@ -19,6 +20,7 @@ namespace StudentRegister_GOhman
                 MenuChoice(Console.ReadKey()!);
             }
         }
+
         private void MenuChoice(ConsoleKeyInfo input) //Switch-case Menu for choosing operations
         {
             ConsoleKey key = input.Key;
@@ -98,8 +100,6 @@ namespace StudentRegister_GOhman
             return (ModifyStudent(Console.ReadKey()!, currStudent));
         }
 
-
-
         public bool ModifyStudent(ConsoleKeyInfo keyIn, Student student) //Modifies student by given condition.
         {
             bool ok = true;
@@ -175,6 +175,7 @@ namespace StudentRegister_GOhman
                 Console.WriteLine(student.ToString());
             }
         }
+
         public void WriteMenu()
         {
             Console.WriteLine("MENU: "
@@ -183,6 +184,7 @@ namespace StudentRegister_GOhman
                 + "\r\n3: List All Students");
             Console.WriteLine();
         }
+
         private void PressAnyKeyToContinueLogic() //Logic for continuing and cleaning console. Used to clean upp the code.
         {
             Console.WriteLine("Press any key to continue");
