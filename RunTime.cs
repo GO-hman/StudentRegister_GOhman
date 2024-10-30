@@ -11,11 +11,6 @@ namespace StudentRegister_GOhman
     {
         Student? currStudent;
         private StudentDbContext dbCtx = new StudentDbContext();
-
-        public RunTime()
-        {
-        }
-
         public void Start()
         {
             while (true)
@@ -24,11 +19,6 @@ namespace StudentRegister_GOhman
                 MenuChoice(Console.ReadKey()!);
             }
         }
-
-
-
-
-
         private void MenuChoice(ConsoleKeyInfo input) //Switch-case Menu for choosing operations
         {
             ConsoleKey key = input.Key;
@@ -87,7 +77,7 @@ namespace StudentRegister_GOhman
 
         private bool RequestModifyStudent() //Call ModifyStudent and return bool true/false depending on result.
         {
-            Console.WriteLine();
+            Console.WriteLine("Modify Student");
             ListAllStudents();
             Console.WriteLine();
             Console.Write("Give student ID to modify: ");
@@ -102,12 +92,10 @@ namespace StudentRegister_GOhman
 
             currStudent = GetStudent(studID);
 
-            Console.Clear();
             Console.WriteLine("\r\nWhat to modify?");
             Console.WriteLine("1: First name\r\n" +
                 "2: Last name\r\n" +
                 "3: City\r\n");
-
             return (ModifyStudent(Console.ReadKey()!, ref currStudent));
         }
 
@@ -117,6 +105,7 @@ namespace StudentRegister_GOhman
         {
             bool ok = true;
             ConsoleKey key = keyIn.Key;
+            Console.WriteLine();
             switch (key)
             {
                 case ConsoleKey.D1:
