@@ -21,8 +21,7 @@ namespace StudentRegister_GOhman
             while (true)
             {
                 WriteMenu();
-                MenuChoice(Console.ReadLine()!);
-
+                MenuChoice(Console.ReadKey()!);
             }
         }
 
@@ -30,11 +29,12 @@ namespace StudentRegister_GOhman
 
 
 
-        private void MenuChoice(string input) //Switch-case Menu for choosing operations
+        private void MenuChoice(ConsoleKeyInfo input) //Switch-case Menu for choosing operations
         {
-            switch (input)
+            ConsoleKey key = input.Key;
+            switch (key)
             {
-                case "1":
+                case ConsoleKey.D1:
                     Console.Clear();
 
                     if (!RequestAddStudent())
@@ -45,7 +45,7 @@ namespace StudentRegister_GOhman
                     PressAnyKeyToContinueLogic();
                     break;
 
-                case "2":
+                case ConsoleKey.D2:
                     Console.Clear();
 
                     if (!RequestModifyStudent())
@@ -57,19 +57,9 @@ namespace StudentRegister_GOhman
                     PressAnyKeyToContinueLogic();
                     break;
 
-                case "3":
-                    Console.WriteLine("List all Students");
-
-                    if (dbCtx.Students.Count() == 0)
-                    {
-                        Console.WriteLine("No students in database");
-                        return;
-                    }
-
-                    foreach (var student in dbCtx.Students)
-                    {
-                        Console.WriteLine(student.ToString());
-                    }
+                case ConsoleKey.D3:
+                    Console.Clear();
+                    ListAllStudents();
                     PressAnyKeyToContinueLogic();
                     break;
 
@@ -97,43 +87,47 @@ namespace StudentRegister_GOhman
 
         private bool RequestModifyStudent() //Call ModifyStudent and return bool true/false depending on result.
         {
-            Console.WriteLine("Modify Student");
+            Console.WriteLine();
+            ListAllStudents();
+            Console.WriteLine();
             Console.Write("Give student ID to modify: ");
-            int studID = int.Parse(Console.ReadLine()!); //TODO: Nå tryparse?
+            int studID;
 
-            currStudent = GetStudent(studID);
-
-            if (currStudent == null)
+            if (!int.TryParse(Console.ReadLine()!, out studID) || GetStudent(studID) == null)
             {
                 Console.WriteLine("Invalid student ID");
                 PressAnyKeyToContinueLogic();
                 return false;
             }
 
-            Console.WriteLine("What to modify?");
+            currStudent = GetStudent(studID);
+
+            Console.Clear();
+            Console.WriteLine("\r\nWhat to modify?");
             Console.WriteLine("1: First name\r\n" +
                 "2: Last name\r\n" +
                 "3: City\r\n");
 
-            return (ModifyStudent(Console.ReadLine()!, ref currStudent));
+            return (ModifyStudent(Console.ReadKey()!, ref currStudent));
         }
 
 
 
-        public bool ModifyStudent(string strIn, ref Student student) //Modifies student by given condition. Student passed by reference
+        public bool ModifyStudent(ConsoleKeyInfo keyIn, ref Student student) //Modifies student by given condition. Student passed by reference
         {
             bool ok = true;
-            switch (strIn)
+            ConsoleKey key = keyIn.Key;
+            switch (key)
             {
-                case "1":
+                case ConsoleKey.D1:
                     Console.Write("Enter new First Name: ");
                     student.FirstName = Console.ReadLine();
                     break;
-                case "2":
+                case ConsoleKey.D2:
                     Console.Write("Enter new Last Name: ");
                     student.LastName = Console.ReadLine();
                     break;
-                case "3":
+                case ConsoleKey.D3:
                     Console.Write("Enter new City: ");
                     student.City = Console.ReadLine();
                     break;
@@ -186,6 +180,20 @@ namespace StudentRegister_GOhman
             }
 
             return null!;
+        }
+
+        private void ListAllStudents()
+        {
+            if (dbCtx.Students.Count() == 0)
+            {
+                Console.WriteLine("No students in database");
+                return;
+            }
+
+            foreach (var student in dbCtx.Students)
+            {
+                Console.WriteLine(student.ToString());
+            }
         }
         private void PressAnyKeyToContinueLogic() //Logic for continuing and cleaning console. Used for readability of code.
         {
