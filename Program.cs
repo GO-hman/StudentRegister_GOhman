@@ -6,11 +6,8 @@ namespace StudentRegister_GOhman
     {
         static void Main(string[] args)
         {
-            
             RunTime run = new RunTime();
             run.Start();
         }
-
-
     }
 }
