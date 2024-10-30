@@ -76,6 +76,28 @@ namespace StudentRegister_GOhman
             return AddStudentToDatabase(currStudent);
         }
 
+        private Student CreateStudent(string firstName, string lastName, string city)
+        {
+            Student student = new Student()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                City = city
+            };
+            return student;
+        }
+
+        public bool AddStudentToDatabase(Student studIn) //Add student to database, if not null. 
+        {
+            if (studIn != null)
+            {
+                dbCtx.Add(studIn); //Add student to database
+                dbCtx.SaveChanges(); //Save changes
+                return true;
+            }
+            return false;
+        }
+
         private bool RequestModifyStudent() //Call ModifyStudent and return bool true/false depending on result.
         {
             Console.WriteLine("Modify Student");
@@ -98,6 +120,18 @@ namespace StudentRegister_GOhman
                 "2: Last name\r\n" +
                 "3: City\r\n");
             return (ModifyStudent(Console.ReadKey()!, currStudent));
+        }
+
+        public Student GetStudent(int studentID) //Get student by ID
+        {
+            var student = dbCtx.Students.Where<Student>(s => s.StudentID == studentID).FirstOrDefault();
+
+            if (student != null)
+            {
+                return student;
+            }
+
+            return null!;
         }
 
         public bool ModifyStudent(ConsoleKeyInfo keyIn, Student student) //Modifies student by given condition.
@@ -126,40 +160,6 @@ namespace StudentRegister_GOhman
                     break;
             }
             return ok;
-        }
-
-        private Student CreateStudent(string firstName, string lastName, string city)
-        {
-            Student student = new Student()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                City = city
-            };
-            return student;
-        }
-
-        public bool AddStudentToDatabase(Student studIn) //Add student to database, if not null. 
-        {
-            if (studIn != null)
-            {
-                dbCtx.Add(studIn); //Add student to database
-                dbCtx.SaveChanges(); //Save changes
-                return true;
-            }
-            return false;
-        }
-
-        public Student GetStudent(int studentID) //Get student by ID
-        {
-            var student = dbCtx.Students.Where<Student>(s => s.StudentID == studentID).FirstOrDefault();
-
-            if (student != null)
-            {
-                return student;
-            }
-
-            return null!;
         }
 
         private void ListAllStudents()
