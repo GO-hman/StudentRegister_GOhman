@@ -24,7 +24,7 @@ namespace StudentRegister_GOhman
             ConsoleKey key = input.Key;
             switch (key)
             {
-                case ConsoleKey.D1:
+                case ConsoleKey.D1: //Add student
                     Console.Clear();
 
                     if (!RequestAddStudent())
@@ -35,19 +35,19 @@ namespace StudentRegister_GOhman
                     PressAnyKeyToContinueLogic();
                     break;
 
-                case ConsoleKey.D2:
+                case ConsoleKey.D2: //Modify student
                     Console.Clear();
 
                     if (!RequestModifyStudent())
                     {
                         return;
                     }
-                    dbCtx.SaveChanges();
+                    dbCtx.SaveChanges(); //Save changes
                     Console.WriteLine("Student successfully modified!");
                     PressAnyKeyToContinueLogic();
                     break;
 
-                case ConsoleKey.D3:
+                case ConsoleKey.D3: //List students
                     Console.Clear();
                     ListAllStudents();
                     PressAnyKeyToContinueLogic();
@@ -95,12 +95,12 @@ namespace StudentRegister_GOhman
             Console.WriteLine("1: First name\r\n" +
                 "2: Last name\r\n" +
                 "3: City\r\n");
-            return (ModifyStudent(Console.ReadKey()!, ref currStudent));
+            return (ModifyStudent(Console.ReadKey()!, currStudent));
         }
 
 
 
-        public bool ModifyStudent(ConsoleKeyInfo keyIn, ref Student student) //Modifies student by given condition. Student passed by reference
+        public bool ModifyStudent(ConsoleKeyInfo keyIn, Student student) //Modifies student by given condition.
         {
             bool ok = true;
             ConsoleKey key = keyIn.Key;
@@ -127,14 +127,6 @@ namespace StudentRegister_GOhman
             }
             return ok;
         }
-        public void WriteMenu()
-        {
-            Console.WriteLine("MENU: "
-                + "\r\n1: Register Student"
-                + "\r\n2: Modify Student"
-                + "\r\n3: List All Students");
-            Console.WriteLine();
-        }
 
         private Student CreateStudent(string firstName, string lastName, string city)
         {
@@ -151,8 +143,8 @@ namespace StudentRegister_GOhman
         {
             if (studIn != null)
             {
-                dbCtx.Add(studIn);
-                dbCtx.SaveChanges();
+                dbCtx.Add(studIn); //Add student to database
+                dbCtx.SaveChanges(); //Save changes
                 return true;
             }
             return false;
@@ -182,6 +174,14 @@ namespace StudentRegister_GOhman
             {
                 Console.WriteLine(student.ToString());
             }
+        }
+        public void WriteMenu()
+        {
+            Console.WriteLine("MENU: "
+                + "\r\n1: Register Student"
+                + "\r\n2: Modify Student"
+                + "\r\n3: List All Students");
+            Console.WriteLine();
         }
         private void PressAnyKeyToContinueLogic() //Logic for continuing and cleaning console. Used to clean upp the code.
         {
