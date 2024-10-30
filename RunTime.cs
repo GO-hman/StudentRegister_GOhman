@@ -60,7 +60,6 @@ namespace StudentRegister_GOhman
             }
         }
 
-
         private bool RequestAddStudent() //Creates student and add student to database. Return bool true/false depending on result.
         {
             Console.WriteLine("Add Student");
@@ -184,7 +183,7 @@ namespace StudentRegister_GOhman
                 Console.WriteLine(student.ToString());
             }
         }
-        private void PressAnyKeyToContinueLogic() //Logic for continuing and cleaning console. Used for readability of code.
+        private void PressAnyKeyToContinueLogic() //Logic for continuing and cleaning console. Used to clean upp the code.
         {
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
